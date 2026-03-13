@@ -13,16 +13,7 @@ app.use(cors())
 app.use(express.static(path.join(__dirname)))
 
 // conexão com banco (Railway)
-const db = mysql.createConnection({
- host: process.env.MYSQLHOST,
- user: process.env.MYSQLUSER,
- password: process.env.MYSQLPASSWORD,
- database: process.env.MYSQLDATABASE,
- port: process.env.MYSQLPORT,
- ssl: {
-  rejectUnauthorized: false
- }
-})
+const db = mysql.createConnection(process.env.DATABASE_URL)
 
 // testar conexão
 db.connect((err) => {
