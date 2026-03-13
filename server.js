@@ -2,14 +2,15 @@ const express = require("express")
 const mysql = require("mysql2")
 const bcrypt = require("bcrypt")
 const cors = require("cors")
+const path = require("path")
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 
-// SERVIR ARQUIVOS HTML (index.html, rosa.html, etc)
-app.use(express.static(__dirname))
+// SERVIR ARQUIVOS ESTÁTICOS
+app.use(express.static(path.join(__dirname)))
 
 const db = mysql.createConnection({
  host: "localhost",
@@ -64,12 +65,12 @@ app.post("/login",(req,res)=>{
 
 })
 
-// ROTA PRINCIPAL
+// ABRIR INDEX
 app.get("/", (req,res)=>{
- res.sendFile(__dirname + "/index.html")
+ res.sendFile(path.join(__dirname,"index.html"))
 })
 
-// PORTA PARA RENDER
+// PORTA
 app.listen(process.env.PORT || 3000,()=>{
  console.log("Servidor rodando 🚀")
 })
