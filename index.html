@@ -118,7 +118,6 @@ font-weight:bold;
 <p id="resultado"></p>
 
 </div>
-
 <script>
 
 async function registrar(){
@@ -126,7 +125,7 @@ async function registrar(){
 const email = document.getElementById("emailRegistro").value
 const senha = document.getElementById("senhaRegistro").value
 
-const res = await fetch("http://localhost:3000/registro",{
+const res = await fetch("/registro",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -144,7 +143,7 @@ async function login(){
 const email = document.getElementById("emailLogin").value
 const senha = document.getElementById("senhaLogin").value
 
-const res = await fetch("http://localhost:3000/login",{
+const res = await fetch("/login",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -161,7 +160,6 @@ document.getElementById("resultado").innerText = msg
 }
 
 }
-
 </script>
 
 </body>
