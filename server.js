@@ -8,6 +8,9 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+// SERVIR ARQUIVOS HTML (index.html, rosa.html, etc)
+app.use(express.static(__dirname))
+
 const db = mysql.createConnection({
  host: "localhost",
  user: "root",
@@ -15,6 +18,7 @@ const db = mysql.createConnection({
  database: "login_site"
 })
 
+// REGISTRO
 app.post("/registro", async (req,res)=>{
 
  const {email,senha} = req.body
@@ -32,6 +36,7 @@ app.post("/registro", async (req,res)=>{
 
 })
 
+// LOGIN
 app.post("/login",(req,res)=>{
 
  const {email,senha} = req.body
@@ -58,8 +63,13 @@ app.post("/login",(req,res)=>{
  )
 
 })
+
+// ROTA PRINCIPAL
 app.get("/", (req,res)=>{
- res.send("Servidor funcionando 🚀")
+ res.sendFile(__dirname + "/index.html")
 })
 
-app.listen(3000,()=>console.log("rodando"))
+// PORTA PARA RENDER
+app.listen(process.env.PORT || 3000,()=>{
+ console.log("Servidor rodando 🚀")
+})
