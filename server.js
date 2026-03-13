@@ -9,9 +9,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// SERVIR ARQUIVOS ESTÁTICOS
-app.use(express.static(path.join(__dirname)))
+// SERVIR ARQUIVOS HTML
+app.use(express.static(__dirname))
 
+// BANCO
 const db = mysql.createConnection({
  host: "localhost",
  user: "root",
@@ -23,7 +24,6 @@ const db = mysql.createConnection({
 app.post("/registro", async (req,res)=>{
 
  const {email,senha} = req.body
-
  const hash = await bcrypt.hash(senha,10)
 
  db.query(
@@ -47,12 +47,11 @@ app.post("/login",(req,res)=>{
   [email],
   async (err,result)=>{
 
-   if(result.length==0){
+   if(result.length == 0){
     return res.send("usuario não encontrado")
    }
 
    const usuario = result[0]
-
    const valido = await bcrypt.compare(senha,usuario.senha)
 
    if(!valido){
@@ -65,7 +64,7 @@ app.post("/login",(req,res)=>{
 
 })
 
-// ABRIR INDEX
+// ROTA PRINCIPAL
 app.get("/", (req,res)=>{
  res.sendFile(path.join(__dirname,"index.html"))
 })
