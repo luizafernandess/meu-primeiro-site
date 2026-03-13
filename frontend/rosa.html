@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Página Fofa</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-family:Arial;
+background:linear-gradient(45deg,#ff9ad5,#ffb6e6,#ffcce6);
+background-size:400% 400%;
+animation:fundo 8s infinite alternate;
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+@keyframes fundo{
+0%{background-position:left}
+100%{background-position:right}
+}
+
+h1{
+font-size:60px;
+animation:pular 1s infinite alternate;
+}
+
+@keyframes pular{
+from{transform:translateY(0)}
+to{transform:translateY(-15px)}
+}
+
+.heart{
+position:absolute;
+font-size:30px;
+animation:subir 6s linear infinite;
+}
+
+@keyframes subir{
+0%{
+transform:translateY(100vh);
+opacity:1;
+}
+100%{
+transform:translateY(-10vh);
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Bem-vinda 🌸✨</h1>
+<p>Login realizado com sucesso!</p>
+
+<script>
+
+function criarCoracao(){
+
+const heart = document.createElement("div")
+heart.innerHTML = "💖"
+heart.classList.add("heart")
+
+heart.style.left = Math.random()*100+"vw"
+heart.style.fontSize = (20 + Math.random()*40)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},6000)
+
+}
+
+setInterval(criarCoracao,500)
+
+</script>
+
+</body>
+</html>

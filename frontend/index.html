@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial;
+background:linear-gradient(135deg,#ff9ad5,#ffc1e3,#ffd6f0);
+background-size:400% 400%;
+animation:fundo 10s infinite alternate;
+}
+
+@keyframes fundo{
+0%{background-position:left}
+100%{background-position:right}
+}
+
+.container{
+background:white;
+padding:40px;
+border-radius:15px;
+width:320px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+text-align:center;
+animation:aparecer 1s;
+}
+
+@keyframes aparecer{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+h2{
+color:#ff4fa3;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:8px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+input:focus{
+outline:none;
+border-color:#ff4fa3;
+box-shadow:0 0 5px #ffb3da;
+}
+
+button{
+width:95%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#ff4fa3;
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff2f8f;
+transform:scale(1.03);
+}
+
+hr{
+margin:20px 0;
+}
+
+#resultado{
+margin-top:10px;
+color:#444;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🌸 Cadastro</h2>
+
+<input id="emailRegistro" placeholder="Email">
+<input id="senhaRegistro" type="password" placeholder="Senha">
+
+<button onclick="registrar()">Cadastrar</button>
+
+<hr>
+
+<h2>✨ Login</h2>
+
+<input id="emailLogin" placeholder="Email">
+<input id="senhaLogin" type="password" placeholder="Senha">
+
+<button onclick="login()">Entrar</button>
+
+<p id="resultado"></p>
+
+</div>
+
+<script>
+
+async function registrar(){
+
+const email = document.getElementById("emailRegistro").value
+const senha = document.getElementById("senhaRegistro").value
+
+const res = await fetch("http://localhost:3000/registro",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({ email, senha })
+})
+
+const msg = await res.text()
+document.getElementById("resultado").innerText = msg
+
+}
+
+async function login(){
+
+const email = document.getElementById("emailLogin").value
+const senha = document.getElementById("senhaLogin").value
+
+const res = await fetch("http://localhost:3000/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({ email, senha })
+})
+
+const msg = await res.text()
+
+if(msg === "login sucesso"){
+window.location.href = "rosa.html"
+}else{
+document.getElementById("resultado").innerText = msg
+}
+
+}
+
+</script>
+
+</body>
+</html>
