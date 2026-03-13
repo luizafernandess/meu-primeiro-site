@@ -9,67 +9,42 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// SERVIR ARQUIVOS HTML
+// servir arquivos HTML
 app.use(express.static(__dirname))
 
-// BANCO
-const db = mysql.createConnection({
- host: "localhost",
- user: "root",
- password: "487Otne#",
- database: "login_site"
+// rota inicial
+app.get("/", (req, res) => {
+ res.sendFile(path.join(__dirname, "index.html"))
 })
 
 // REGISTRO
-app.post("/registro", async (req,res)=>{
+app.post("/registro", async (req, res) => {
 
- const {email,senha} = req.body
- const hash = await bcrypt.hash(senha,10)
+ const { email, senha } = req.body
 
- db.query(
-  "INSERT INTO usuarios (email,senha) VALUES (?,?)",
-  [email,hash],
-  (err,result)=>{
-    if(err) return res.status(500).send(err)
-    res.send("usuario criado")
-  }
- )
+ if (!email || !senha) {
+  return res.send("preencha tudo")
+ }
 
+ res.send("usuario registrado")
 })
 
 // LOGIN
-app.post("/login",(req,res)=>{
+app.post("/login", async (req, res) => {
 
- const {email,senha} = req.body
+ const { email, senha } = req.body
 
- db.query(
-  "SELECT * FROM usuarios WHERE email=?",
-  [email],
-  async (err,result)=>{
-
-   if(result.length == 0){
-    return res.send("usuario não encontrado")
-   }
-
-   const usuario = result[0]
-   const valido = await bcrypt.compare(senha,usuario.senha)
-
-   if(!valido){
-    return res.send("senha incorreta")
-   }
-
-   res.send("login sucesso")
-  }
- )
+ if (email === "teste@email.com" && senha === "123") {
+  res.send("login sucesso")
+ } else {
+  res.send("email ou senha incorreto")
+ }
 
 })
 
-// ROTA PRINCIPAL
-app.get("/", (req,res)=>{
- res.sendFile(path.join(__dirname,"index.html"))
-})
+// PORTA (IMPORTANTE PARA RENDER)
+const PORT = process.env.PORT || 3000
 
-// PORTA
-app.listen(process.env.PORT || 3000,()=>{
- console.log("Servidor rodando 🚀")
+app.listen(PORT, () => {
+ console.log("Servidor rodando na porta " + PORT)
 })
